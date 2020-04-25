@@ -7,5 +7,12 @@ Rails.application.routes.draw do
   scope '/api' do
     resources :drinks
   end
-  # root 'welcome#index'
+
+  # get '*path', to: "application#fallback_index_html", constraints: ->(request) do
+  # !request.xhr? && request.format.html?
+  # end
+  # autoformats to:
+  get '*path', to: 'application#fallback_index_html', constraints: lambda { |request|
+                                                                     !request.xhr? && request.format.html?
+                                                                   }
 end
