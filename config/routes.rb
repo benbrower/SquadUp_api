@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :games_followeds
+  resources :accounts
+  resources :stats
+  resources :games
+  resources :friendships
+  resources :users
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
