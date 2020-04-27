@@ -32,7 +32,7 @@ kale_smoothie.ingredients.create(description: '1 banana, optional')
 Game.create(title: 'Fortnite', api_url: 'https://fortnite-api.p.rapidapi.com/stats/')
 
 i = 1
-while i < 11 do
+while i < 11
   user = User.create(username: 'user' + i.to_s, password: i.to_s, email: 'user' + i.to_s + '@gmail.com')
 
   follow = GamesFollowed.create(user: user, game: Game.all.first)
@@ -47,3 +47,15 @@ while i < 11 do
 
   i += 1
 end
+
+User.create(username: 'bb', password: 'bb', email: 'b@b.b')
+Account.create(user: User.all.last, name: 'I o BB o I', platform: 'pc')
+Stat.create(user: User.all.last, account: Account.all.last, game: Game.all.first)
+GamesFollowed.create(user: User.all.last, game: Game.all.first)
+
+User.create(username: 'Badly', password: 'badly', email: 'badly@b.b')
+Account.create(user: User.all.last, name: 'MrBadly904', platform: 'pc')
+GamesFollowed.create(user: User.all.last, game: Game.all.first)
+Stat.create(user: User.all.last, account: Account.all.last, game: Game.all.first)
+
+Friendship.create(user: User.all[User.all.length - 2], friend: User.all.last, confirmed: true)

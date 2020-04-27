@@ -11,6 +11,8 @@ class Home extends Component {
 
   componentDidMount () {
     this.getDrinks()
+    this.getStats()
+    // this.getUsers()
   }
 
   fetch (endpoint) {
@@ -18,6 +20,18 @@ class Home extends Component {
       .then(response => response.json())
       .catch(error => console.log(error))
   }
+
+  getStats() {
+    fetch ('https://fortnite-api.p.rapidapi.com/stats/mrbadly904')
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }
+
+  // getUsers() {
+  //   fetch ('/users')
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }
 
   getDrinks () {
     this.fetch('/api/drinks')
