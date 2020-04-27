@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :games_followeds
+  resources :followed_games
   resources :accounts
   resources :stats
   resources :games

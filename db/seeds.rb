@@ -28,3 +28,22 @@ kale_smoothie.ingredients.create(description: 'large handful frozen pineapple ch
 kale_smoothie.ingredients.create(description: 'medium-sized chunk ginger')
 kale_smoothie.ingredients.create(description: '1 tbsp cashew nuts')
 kale_smoothie.ingredients.create(description: '1 banana, optional')
+
+Game.create(title: 'Fortnite', api_url: 'https://fortnite-api.p.rapidapi.com/stats/')
+
+i = 1
+while i < 11 do
+  user = User.create(username: 'user' + i.to_s, password: i.to_s, email: 'user' + i.to_s + '@gmail.com')
+
+  follow = GamesFollowed.create(user: user, game: Game.all.first)
+
+  xbl = Account.create(name: 'user' + i.to_s + 'XBL', platform: 'xbl', user: user)
+  psn = Account.create(name: 'user' + i.to_s + 'PSN', platform: 'psn', user: user)
+  pc = Account.create(name: 'user' + i.to_s + 'PC', platform: 'pc', user: user)
+
+  xblStats = Stat.create(user: user, account: xbl, game: Game.all.first)
+  psnStats = Stat.create(user: user, account: psn, game: Game.all.first)
+  pcStats = Stat.create(user: user, account: pc, game: Game.all.first)
+
+  i += 1
+end

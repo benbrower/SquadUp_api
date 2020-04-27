@@ -3,19 +3,21 @@
 class User < ApplicationRecord
   has_many :stats
   has_many :accounts
-  has_many :games_followeds
+  has_many :followed_games
   has_many :friendships
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
+  has_secure_password
+  validates :username, uniqueness: { case_sensitive: false }
 
   # get friends from friendships
   def friends
     friends = friendships.map do |friendship|
       friendship.friend if friendship.confirmed
     end
-    friends + inverse_friendships.map do |friendship|
-                friendship.user if friendship.confirmed
-              end
-    friends_array.compact
+    friends += inverse_friendships.map do |friendship|
+      friendship.user if friendship.confirmed
+    end
+    friends.compact
   end
 
   # check if user is friends with another user
@@ -43,4 +45,5 @@ class User < ApplicationRecord
     friendship.confirmed = true
     friendship.save
   end
+
 end
