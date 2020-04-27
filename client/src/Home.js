@@ -22,7 +22,7 @@ class Home extends Component {
   }
 
   getStats() {
-    fetch ('https://fortnite-api.p.rapidapi.com/stats/mrbadly904', {
+    fetch ('https://fortnite-api.p.rapidapi.com/stats/mrBadly904', {
       method: 'GET',
       headers: {
         "x-rapidapi-host": "fortnite-api.p.rapidapi.com",
