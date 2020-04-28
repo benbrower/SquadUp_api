@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :friendships
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_secure_password
-  validates :username, uniqueness: { case_sensitive: false }
+  validates :username, :email, uniqueness: { case_sensitive: false }
 
   # get friends from friendships
   def friends

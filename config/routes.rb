@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   resources :games
   resources :friendships
   resources :users
+  post '/login', to: 'auth#create'
+  delete '/logout', to: 'auth#destroy'
+  get '/logged_in', to: 'application#logged_in?'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
