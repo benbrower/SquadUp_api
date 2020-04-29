@@ -1,49 +1,65 @@
 import React, { Component } from "react";
+import {
+  Form,
+  Container,
+  Header,
+  Segment,
+  Button,
+  Icon,
+  Dimmer,
+  Loader,
+  Divider,
+  Grid,
+  Table,
+  Menu,
+} from "semantic-ui-react";
 
 class Account extends Component {
-    _isMounted = false;
   constructor() {
     super();
     this.state = {
       user: {},
       stats: {},
+      accounts: {},
     };
   }
 
-  componentDidMount(){
-      this._isMounted=true;
-    fetch(`http://localhost:3001/users/11`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((data) => this.setState({ user: data }));
-    fetch(`https://fortnite-api.p.rapidapi.com/stats/I%20o%20BB%20o%20I`, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "fortnite-api.p.rapidapi.com",
-        "x-rapidapi-key": "1d54e391b9msh2ac664a56fed0d8p1d7913jsn7d463e8a8620",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) =>{ if(this._isMounted) { this.setState({ stats: data })}});
-    console.log(this.state.stats);
-  };
-
-  getStats() {
-    fetch(`https://fortnite-api.p.rapidapi.com/stats/I%20o%20BB%20o%20I`, {
-      method: "GET",
-      headers: {
-        "x-rapidapi-host": "fortnite-api.p.rapidapi.com",
-        "x-rapidapi-key": "1d54e391b9msh2ac664a56fed0d8p1d7913jsn7d463e8a8620",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => this.setState({ stats: data }))
-      .then(console.log(this.state.stats));
+  componentDidMount() {
+    this.setState({
+      accounts: this.props.accounts.filter(
+        (account) => account.user_id === this.props.user.id
+      ),
+    });
   }
 
   render() {
-    return <div>{}</div>;
+    return (
+      <div>
+        <Table celled padded striped color='blue'>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Name</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Notes</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            <Table.Row verticalAlign='top'>
+              <Table.Cell>John</Table.Cell>
+              <Table.Cell>Approved</Table.Cell>
+              <Table.Cell verticalAlign='top'>
+                Notes
+                <br />
+                1<br />
+                2<br />
+              </Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+      </div>
+    );
   }
 }
+
 export default Account;
