@@ -1,6 +1,11 @@
 class UsersController < ApiController
   before_action :set_user, only: [:show, :update, :destroy]
 
+  def friends
+    @user = User.find(params[:id])
+    render json: @user.friends
+  end
+
   # GET /users
   def index
     @users = User.all

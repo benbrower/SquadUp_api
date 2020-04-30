@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   resources :friendships
   resources :users
   devise_for :admin_users, ActiveAdmin::Devise.config
+
+  get '/users/:id/friends', to: 'users#friends'
   ActiveAdmin.routes(self)
 
   scope '/api' do
