@@ -49,7 +49,14 @@ class Login extends Component {
 
   render() {
     return this.props.logged_in ? (
-      <div>Welcome, {this.props.user.username}</div>
+      <>
+        <div>
+          Welcome, {this.props.user.username}
+          <NavLink to='/account'>
+            <Button name='account'>View Account</Button>
+          </NavLink>
+        </div>
+      </>
     ) : (
       <div>
         <Container text>

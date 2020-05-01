@@ -3383,6 +3383,7 @@ class Account extends Component {
       },
       statObjs: [],
       accounts: [],
+      friends: [],
     };
   }
 
@@ -3393,22 +3394,22 @@ class Account extends Component {
   getUserInfo = () => {
     this.setState({
       accounts: this.props.accounts.filter(
-        (account) => account.user_id === this.props.user.id
+        (account) => account.user.id === this.props.user.id
       ),
       statObjs: this.props.stats.filter(
-        (stat) => stat.user_id === this.props.user.id
+        (stat) => stat.user.id === this.props.user.id
       ),
     });
   };
 
-  getRows = () => {
-    console.log(this.state.accounts);
-    return this.state.accounts.map((account, index) => {
+  getStatRows = () => {
+    console.log(this.props.accounts);
+    return this.props.user.accounts.map((account, index) => {
       console.log(account);
       return (
         <Table.Row verticalAlign='top' key={index}>
           {index === 0 ? (
-            <Table.Cell rowSpan={this.state.accounts.length}>
+            <Table.Cell rowSpan={this.props.accounts.length}>
               Fortnite
             </Table.Cell>
           ) : (
@@ -3444,8 +3445,107 @@ class Account extends Component {
               <Table.HeaderCell>Stats</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-          <Table.Body>{this.getRows()}</Table.Body>
+          <Table.Body>{this.getStatRows()}</Table.Body>
         </Table>
+      </>
+    );
+  };
+
+  getFriendRows = () => {
+    return this.props.user.friends.map((friend, index) => {
+      return (
+        <>
+          {/* <Grid.Row> */}
+          <Grid.Column width='two' textAlign='center'>
+            <Item>
+              <Item.Image size='tiny'>
+                <Icon name='users' size='big' />
+              </Item.Image>
+              <Item.Content>
+                <Item.Header as='a'>{friend.username}</Item.Header>
+                <Item.Meta>Friend</Item.Meta>
+              </Item.Content>
+            </Item>
+          </Grid.Column>
+          {/*<Grid.Column width='two'>
+              <Item>
+                <Item.Image size='tiny'>
+                  <Icon name='users' size='big' />
+                </Item.Image>
+                <Item.Content>
+                  <Item.Header as='a'>Name</Item.Header>
+                  <Item.Meta>Friend</Item.Meta>
+                </Item.Content>
+              </Item>{" "}
+            </Grid.Column>
+            <Grid.Column width='two'>
+              <Item>
+                <Item.Image size='tiny'>
+                  <Icon name='users' size='big' />
+                </Item.Image>
+                <Item.Content>
+                  <Item.Header as='a'>Name</Item.Header>
+                  <Item.Meta>Friend</Item.Meta>
+                </Item.Content>
+              </Item>{" "}
+            </Grid.Column> */}
+          {/* </Grid.Row> */}
+          {/* 
+          <Grid.Row>
+            <Grid.Column width='two'>
+              <Item>
+                <Item.Image size='tiny'>
+                  <Icon name='users' size='big' />
+                </Item.Image>
+                <Item.Content>
+                  <Item.Header as='a'>Name</Item.Header>
+                  <Item.Meta>Friend</Item.Meta>
+                </Item.Content>
+              </Item>{" "}
+            </Grid.Column>
+            <Grid.Column width='two'>
+              <Item>
+                <Item.Image size='tiny'>
+                  <Icon name='users' size='big' />
+                </Item.Image>
+                <Item.Content>
+                  <Item.Header as='a'>Name</Item.Header>
+                  <Item.Meta>Friend</Item.Meta>
+                </Item.Content>
+              </Item>{" "}
+            </Grid.Column>
+            <Grid.Column width='two'>
+              <Item>
+                <Item.Image size='tiny'>
+                  <Icon name='users' size='big' />
+                </Item.Image>
+                <Item.Content>
+                  <Item.Header as='a'>Name</Item.Header>
+                  <Item.Meta>Friend</Item.Meta>
+                </Item.Content>
+              </Item>{" "}
+            </Grid.Column>
+          </Grid.Row> */}
+        </>
+      );
+    });
+  };
+
+  getFriendGrid = () => {
+    return (
+      <>
+        <br />
+        <Grid
+          centered
+          celled='internally'
+          columns='three'
+          width='two'
+          padded
+          textAlign='center'
+          relaxed='very'
+        >
+          {this.getFriendRows()}
+        </Grid>
       </>
     );
   };
@@ -3457,88 +3557,7 @@ class Account extends Component {
         <div>
           <br />
           <br />
-          <br />
-          <Grid
-            centered
-            celled='internally'
-            columns='three'
-            width='two'
-            padded
-            textAlign='center'
-            relaxed='very'
-          >
-            <Grid.Row>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>
-              </Grid.Column>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>{" "}
-              </Grid.Column>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>{" "}
-              </Grid.Column>
-            </Grid.Row>
-
-            <Grid.Row>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>{" "}
-              </Grid.Column>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>{" "}
-              </Grid.Column>
-              <Grid.Column width='two'>
-                <Item>
-                  <Item.Image size='tiny'>
-                    <Icon name='users' size='big' />
-                  </Item.Image>
-                  <Item.Content>
-                    <Item.Header as='a'>Name</Item.Header>
-                    <Item.Meta>Friend</Item.Meta>
-                  </Item.Content>
-                </Item>{" "}
-              </Grid.Column>
-            </Grid.Row>
-          </Grid>
+          {this.getFriendGrid()}
         </div>
       </>
     );

@@ -12,7 +12,7 @@ class UsersController < ApiController
   def index
     @users = User.all
 
-    render json: @users.to_json(only: %i[id username email])
+    render json: @users.to_json(only: %i[id username email pass])
   end
 
   # GET /users/1

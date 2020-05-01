@@ -14,10 +14,6 @@ Rails.application.routes.draw do
   get 'users/new' => 'users#new', as: :new_user
   ActiveAdmin.routes(self)
 
-  scope '/api' do
-    resources :drinks
-  end
-
   # get '*path', to: "application#fallback_index_html", constraints: ->(request) do
   # !request.xhr? && request.format.html?
   # end

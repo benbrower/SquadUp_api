@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Home from "./Home";
 import NotFound from "./NotFound";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
@@ -148,7 +147,7 @@ class App extends Component {
       console.log("user not found");
     } else {
       console.log("user found");
-      if (user.password === input.password) {
+      if (user.pass === input.password) {
         console.log("pw match");
         this.setState({
           user: user,
