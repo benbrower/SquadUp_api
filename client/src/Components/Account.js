@@ -3456,7 +3456,7 @@ class Account extends Component {
       return (
         <>
           {/* <Grid.Row> */}
-          <Grid.Column width='two' textAlign='center'>
+          <Grid.Column textAlign='center'>
             <Item>
               <Item.Image size='tiny'>
                 <Icon name='users' size='big' />
@@ -3467,65 +3467,7 @@ class Account extends Component {
               </Item.Content>
             </Item>
           </Grid.Column>
-          {/*<Grid.Column width='two'>
-              <Item>
-                <Item.Image size='tiny'>
-                  <Icon name='users' size='big' />
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>Name</Item.Header>
-                  <Item.Meta>Friend</Item.Meta>
-                </Item.Content>
-              </Item>{" "}
-            </Grid.Column>
-            <Grid.Column width='two'>
-              <Item>
-                <Item.Image size='tiny'>
-                  <Icon name='users' size='big' />
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>Name</Item.Header>
-                  <Item.Meta>Friend</Item.Meta>
-                </Item.Content>
-              </Item>{" "}
-            </Grid.Column> */}
           {/* </Grid.Row> */}
-          {/* 
-          <Grid.Row>
-            <Grid.Column width='two'>
-              <Item>
-                <Item.Image size='tiny'>
-                  <Icon name='users' size='big' />
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>Name</Item.Header>
-                  <Item.Meta>Friend</Item.Meta>
-                </Item.Content>
-              </Item>{" "}
-            </Grid.Column>
-            <Grid.Column width='two'>
-              <Item>
-                <Item.Image size='tiny'>
-                  <Icon name='users' size='big' />
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>Name</Item.Header>
-                  <Item.Meta>Friend</Item.Meta>
-                </Item.Content>
-              </Item>{" "}
-            </Grid.Column>
-            <Grid.Column width='two'>
-              <Item>
-                <Item.Image size='tiny'>
-                  <Icon name='users' size='big' />
-                </Item.Image>
-                <Item.Content>
-                  <Item.Header as='a'>Name</Item.Header>
-                  <Item.Meta>Friend</Item.Meta>
-                </Item.Content>
-              </Item>{" "}
-            </Grid.Column>
-          </Grid.Row> */}
         </>
       );
     });
@@ -3536,12 +3478,12 @@ class Account extends Component {
       <>
         <br />
         <Grid
+          container
           centered
-          celled='internally'
-          columns='three'
-          width='two'
+          columns='equal'
           padded
           textAlign='center'
+          verticalAlign='center'
           relaxed='very'
         >
           {this.getFriendRows()}
@@ -3554,11 +3496,7 @@ class Account extends Component {
     return (
       <>
         <div>{this.getStatTable()}</div>
-        <div>
-          <br />
-          <br />
-          {this.getFriendGrid()}
-        </div>
+        <div>{this.getFriendGrid()}</div>
       </>
     );
   }
