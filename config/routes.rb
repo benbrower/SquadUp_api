@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   resources :users
   devise_for :admin_users, ActiveAdmin::Devise.config
 
+  post 'users' => 'users#create'
   get '/users/:id/friends', to: 'users#friends'
+  get 'users/new' => 'users#new', as: :new_user
   ActiveAdmin.routes(self)
 
   scope '/api' do

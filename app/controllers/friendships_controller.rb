@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class FriendshipsController < ApiController
-  before_action :set_friendship, only: [:show, :update, :destroy]
+  before_action :set_friendship, only: %i[show update destroy]
 
   # GET /friendships
   def index
@@ -39,13 +41,14 @@ class FriendshipsController < ApiController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_friendship
-      @friendship = Friendship.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def friendship_params
-      params.require(:friendship).permit(:user_id, :friend_id, :confirmed)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_friendship
+    @friendship = Friendship.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def friendship_params
+    params.require(:friendship).permit(:user_id, :friend_id, :confirmed)
+  end
 end
