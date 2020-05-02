@@ -3455,7 +3455,6 @@ class Account extends Component {
     return this.props.user.friends.map((friend, index) => {
       return (
         <>
-          {/* <Grid.Row> */}
           <Grid.Column textAlign='center'>
             <Item>
               <Item.Image size='tiny'>
@@ -3467,13 +3466,32 @@ class Account extends Component {
               </Item.Content>
             </Item>
           </Grid.Column>
-          {/* </Grid.Row> */}
         </>
       );
     });
   };
 
-  getFriendGrid = () => {
+  getFollowedGamesRows = () => {
+    return this.props.user.followed_games.map((game, index) => {
+      return (
+        <>
+          <Grid.Column textAlign='center'>
+            <Item>
+              <Item.Image size='tiny'>
+                <Icon name='users' size='big' />
+              </Item.Image>
+              <Item.Content>
+                <Item.Header as='a'>{game.game.title}</Item.Header>
+                <Item.Meta>Game</Item.Meta>
+              </Item.Content>
+            </Item>
+          </Grid.Column>
+        </>
+      );
+    });
+  };
+
+  getGrid = (rows) => {
     return (
       <>
         <br />
@@ -3486,7 +3504,7 @@ class Account extends Component {
           verticalAlign='center'
           relaxed='very'
         >
-          {this.getFriendRows()}
+          {rows}
         </Grid>
       </>
     );
@@ -3496,7 +3514,8 @@ class Account extends Component {
     return (
       <>
         <div>{this.getStatTable()}</div>
-        <div>{this.getFriendGrid()}</div>
+        <div>{this.getGrid(this.getFriendRows())}</div>
+        <div>{this.getGrid(this.getFollowedGamesRows())}</div>
       </>
     );
   }

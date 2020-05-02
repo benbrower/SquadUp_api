@@ -1,9 +1,20 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 import NotFound from "./NotFound";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import Account from "./Components/Account";
+import Game from "./Components/Game";
+import Games from "./Components/Games";
+import NavBar from "./Components/NavBar";
+
+let mounts = 4;
+let updates = 0;
 
 class App extends Component {
   constructor() {
@@ -15,17 +26,20 @@ class App extends Component {
       stats: [],
       accounts: [],
       users: [],
+      games: [],
+      targetGame: {},
       logged_in: false,
+      render: false,
     };
   }
 
   componentDidMount() {
     console.log("mounted");
     this.getUsers();
-    this.getBen();
-    this.getFriends();
     this.getAccounts();
     this.getFriendships();
+    this.getGames();
+    this.getTargetGame(1);
     this.getStats();
     console.log("mounted end");
   }
@@ -42,10 +56,16 @@ class App extends Component {
     console.log(this.state.accounts);
     console.log("friendships:");
     console.log(this.state.friendships);
+    console.log("targetGame:");
+    console.log(this.state.targetGame);
+    console.log("games:");
+    console.log(this.state.games);
     console.log("stats:");
     console.log(this.state.stats);
     console.log("update done");
   }
+
+  componentDidCatch;
 
   getBen = () => {
     console.log("getting Ben");
@@ -67,7 +87,7 @@ class App extends Component {
   };
 
   getUser = () => {
-    console.log("getting stats");
+    console.log("getting user");
     fetch(`http://localhost:3001/users/${this.state.user.id}`, {
       method: "GET",
     })
@@ -75,10 +95,15 @@ class App extends Component {
       .then((data) => this.setState({ user: data }));
   };
 
+  getUserById = (id) => {
+    fetch(`http://localhost:3001/users/${id}`, { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => this.setState({ user: data }));
+  };
+
   getFriends = () => {
     console.log("getting friends");
-    // fetch(`http://localhost:3001/users/${this.state.user.id}/friends`, {
-    fetch(`http://localhost:3001/users/11/friends`, {
+    fetch(`http://localhost:3001/users/${this.state.user.id}/friends`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -118,6 +143,24 @@ class App extends Component {
       .then((data) => this.setState({ friendships: data }));
   };
 
+  getGames = () => {
+    console.log("getting games");
+    fetch(`http://localhost:3001/games`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => this.setState({ games: data }));
+  };
+
+  getTargetGame = (id) => {
+    console.log("getting targetGame");
+    fetch(`http://localhost:3001/games/${id}/`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => this.setState({ targetGame: data }));
+  };
+
   getStats = () => {
     console.log("getting stats");
     fetch("http://localhost:3001/stats/", { method: "GET" })
@@ -149,11 +192,14 @@ class App extends Component {
       console.log("user found");
       if (user.pass === input.password) {
         console.log("pw match");
-        this.setState({
-          user: user,
-          logged_in: true,
-        });
-        this.getStats();
+        console.log("new user", user);
+        this.getUserById(user.id);
+        this.getFriends();
+        if (this.state.user != {}) {
+          this.setState({
+            logged_in: true,
+          });
+        }
       } else {
         console.log("wrong pw");
       }
@@ -161,18 +207,38 @@ class App extends Component {
   };
 
   render() {
+    console.log("mounts: ", mounts, "updates: ", updates);
     if (this.state.stats.length != 0) {
       return (
         <Router>
           <div className='App'>
+            <NavBar user={this.props.user} logged_in={this.props.logged_in} />
             <Switch>
               {/* <Route path='/' exact component={Home} /> */}
-              {/* <Route component={NotFound} /> */}
+              <Route exact path='/'>
+                {this.state.logged_in ? (
+                  <Redirect to='/account' />
+                ) : (
+                  <Redirect to='/login' />
+                )}
+              </Route>
+              />
               <Route
                 exact
-                path='/'
+                path='/login'
                 component={() => (
                   <Login
+                    user={this.state.user}
+                    handleLogin={this.handleLogin.bind(this)}
+                    logged_in={this.state.logged_in}
+                  />
+                )}
+              />
+              <Route
+                exact
+                path='/signup'
+                component={() => (
+                  <Signup
                     user={this.state.user}
                     handleLogin={this.handleLogin.bind(this)}
                     logged_in={this.state.logged_in}
@@ -194,20 +260,40 @@ class App extends Component {
               />
               <Route
                 exact
-                path='/signup'
+                path='/games'
                 component={() => (
-                  <Signup
+                  <Games
                     user={this.state.user}
-                    handleLogin={this.handleLogin.bind(this)}
-                    logged_in={this.state.logged_in}
+                    friends={this.state.friends}
+                    stats={this.state.stats}
+                    accounts={this.state.accounts}
+                    friendships={this.state.friendships}
+                    games={this.state.games}
+                    targetGame={this.state.targetGame}
                   />
                 )}
               />
+              <Route
+                exact
+                path='/game'
+                component={() => (
+                  <Game
+                    user={this.state.user}
+                    friends={this.state.friends}
+                    stats={this.state.stats}
+                    accounts={this.state.accounts}
+                    friendships={this.state.friendships}
+                    games={this.state.games}
+                    targetGame={this.state.targetGame}
+                  />
+                )}
+              />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </Router>
       );
-    } else return <div></div>;
+    } else return <div>Loading...</div>;
   }
 }
 
