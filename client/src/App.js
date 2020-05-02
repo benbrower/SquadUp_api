@@ -206,15 +206,20 @@ class App extends Component {
     }
   };
 
+  checkRender = () => {
+    if (this.state.stats.length != 0) {
+      return true;
+    } else return false;
+  };
+
   render() {
     console.log("mounts: ", mounts, "updates: ", updates);
-    if (this.state.stats.length != 0) {
+    if (this.checkRender()) {
       return (
-        <Router>
-          <div className='App'>
-            <NavBar user={this.props.user} logged_in={this.props.logged_in} />
+        <div className='App'>
+          <NavBar user={this.state.user} logged_in={this.state.logged_in} />
+          <Router>
             <Switch>
-              {/* <Route path='/' exact component={Home} /> */}
               <Route exact path='/'>
                 {this.state.logged_in ? (
                   <Redirect to='/account' />
@@ -245,10 +250,8 @@ class App extends Component {
                   />
                 )}
               />
-              <Route
-                exact
-                path='/account'
-                component={() => (
+              <Route exact path='/account'>
+                {this.state.logged_in ? (
                   <Account
                     user={this.state.user}
                     friends={this.state.friends}
@@ -256,8 +259,11 @@ class App extends Component {
                     accounts={this.state.accounts}
                     friendships={this.state.friendships}
                   />
+                ) : (
+                  <Redirect to='/login' />
                 )}
-              />
+              </Route>
+              )} />
               <Route
                 exact
                 path='/games'
@@ -290,8 +296,8 @@ class App extends Component {
               />
               <Route component={NotFound} />
             </Switch>
-          </div>
-        </Router>
+          </Router>
+        </div>
       );
     } else return <div>Loading...</div>;
   }

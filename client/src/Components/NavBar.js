@@ -35,63 +35,61 @@ class NavBar extends Component {
     return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
   };
   getDropdown = () => {
-    return (
-      <Dropdown item textAlign='bottom' simple text='Account'>
-        <Dropdown.Menu>
-          <Dropdown.Header>Friends</Dropdown.Header>
-          <Dropdown.Item>
-            <i className='dropdown icon' />
-            <span className='text'>Friends </span>
-            <Dropdown.Menu>
-              <Dropdown.Item>View Friends</Dropdown.Item>
-              <Dropdown.Item>Friend Requests</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Header>Games</Dropdown.Header>
-          <Dropdown.Item>
-            <i className='dropdown icon' />
-            <span className='text'>Manage Games</span>
-            <Dropdown.Menu>
-              <Dropdown.Item>View Games</Dropdown.Item>
-              <Dropdown.Item>View Friends' Games</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Header>Account</Dropdown.Header>
-          <Dropdown.Item>
-            <i className='dropdown icon' />
-            <span className='text'>Manage Account</span>
-            <Dropdown.Menu>
-              <Dropdown.Item>View Profile</Dropdown.Item>
-              <Dropdown.Item>Edit Account</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown.Item>
-          <Dropdown.Item>Log Out</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    );
-    // } else
-    //   return (
-    //     <Menu pointing secondary size='large'>
-    //       <Container>
-    //         <Menu.Item as='a' active>
-    //           Home
-    //         </Menu.Item>
-    //         <Menu.Item as='a'>Work</Menu.Item>
-    //         <Menu.Item as='a'>Company</Menu.Item>
-    //         <Menu.Item as='a'>Careers</Menu.Item>
-    //         <Menu.Item position='right'>
-    //           <Button as='a'>Log in</Button>
-    //           <Button as='a' primary style={{ marginLeft: "0.5em" }}>
-    //             Sign Up
-    //           </Button>
-    //         </Menu.Item>
-    //       </Container>
-    //     </Menu>
-    //   );
+    console.log("user nav", this.props.user);
+    if (this.props.logged_in) {
+      return (
+        <Dropdown
+          item
+          textAlign='bottom'
+          simple
+          text={this.props.user.username}
+        >
+          <Dropdown.Menu>
+            <Dropdown.Header>Friends</Dropdown.Header>
+            <Dropdown.Item>
+              <i className='dropdown icon' />
+              <span className='text'>Friends </span>
+              <Dropdown.Menu>
+                <Dropdown.Item>View Friends</Dropdown.Item>
+                <Dropdown.Item>Friend Requests</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Header>Games</Dropdown.Header>
+            <Dropdown.Item>
+              <i className='dropdown icon' />
+              <span className='text'>Manage Games</span>
+              <Dropdown.Menu>
+                <Dropdown.Item>View Games</Dropdown.Item>
+                <Dropdown.Item>View Friends' Games</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Header>Account</Dropdown.Header>
+            <Dropdown.Item>
+              <i className='dropdown icon' />
+              <span className='text'>Manage Account</span>
+              <Dropdown.Menu>
+                <Dropdown.Item>View Profile</Dropdown.Item>
+                <Dropdown.Item>Edit Account</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown.Item>
+            <Dropdown.Item>Log Out</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      );
+    } else
+      return (
+        <Menu.Item position='right'>
+          <Button as='a'>Log in</Button>
+          <Button as='a' primary style={{ marginLeft: "0.5em" }}>
+            Sign Up
+          </Button>
+        </Menu.Item>
+      );
   };
   render() {
+    console.log("nav render");
     return (
       <div>
         <Responsive width={window.innerHeight}>
