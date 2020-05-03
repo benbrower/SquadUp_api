@@ -20,19 +20,13 @@ class Signup extends Component {
       email: "",
       username: "",
       password: "",
-      form: "login",
+      pass: "p",
     };
-    this.handleUserChange = this.handleUserChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    // this.handleUserChange = this.handleUserChange.bind(this);
+    // this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
-  handleUserChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  handlePasswordChange = (event) => {
+  handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -40,7 +34,7 @@ class Signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.handleLogin(this.state);
+    this.props.handleSignup(this.state);
   };
 
   changeForm = (event) => {
@@ -98,27 +92,27 @@ class Signup extends Component {
             <Divider section />
             <Form.Field>
               <label>
-                Email:
-                <input
-                  placeholder='Email Address'
-                  id='email'
-                  name='email'
-                  type='text'
-                  onChange={this.handleEmailChange}
-                  value={this.state.email}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
                 Username:
                 <input
                   placeholder='Username'
                   id='username'
                   name='username'
                   type='text'
-                  onChange={this.handleUserChange}
+                  onChange={this.handleChange}
                   value={this.state.username}
+                />
+              </label>
+            </Form.Field>
+            <Form.Field>
+              <label>
+                Email:
+                <input
+                  placeholder='Email Address'
+                  id='email'
+                  name='email'
+                  type='text'
+                  onChange={this.handleChange}
+                  value={this.state.email}
                 />
               </label>
             </Form.Field>
@@ -130,13 +124,13 @@ class Signup extends Component {
                   id='password'
                   name='password'
                   type='password'
-                  onChange={this.handlePasswordChange}
+                  onChange={this.handleChange}
                   value={this.state.password}
                 />
               </label>
             </Form.Field>
             <div>
-              <Button type='submit'>Log in</Button>
+              <Button type='submit'>Sign Up</Button>
             </div>
           </Form>
         </Responsive>

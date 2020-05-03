@@ -11,6 +11,9 @@ Rails.application.routes.draw do
 
   post 'users' => 'users#create'
   get '/users/:id/friends', to: 'users#friends'
+  get '/users/:id/friend_requests', to: 'users#friend_requests'
+  get '/users/:id/pending_friends', to: 'users#pending_friends'
+
   get 'users/new' => 'users#new', as: :new_user
   ActiveAdmin.routes(self)
 

@@ -20,7 +20,6 @@ class Login extends Component {
     this.state = {
       username: "",
       password: "",
-      form: "login",
     };
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);

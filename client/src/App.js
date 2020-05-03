@@ -9,6 +9,7 @@ import NotFound from "./NotFound";
 import Login from "./Components/Login";
 import Signup from "./Components/Signup";
 import Account from "./Components/Account";
+import Friends from "./Components/Friends";
 import Game from "./Components/Game";
 import Games from "./Components/Games";
 import NavBar from "./Components/NavBar";
@@ -36,6 +37,8 @@ class App extends Component {
   componentDidMount() {
     console.log("mounted");
     this.getUsers();
+    this.getBen();
+    // this.getFriends();
     this.getAccounts();
     this.getFriendships();
     this.getGames();
@@ -98,6 +101,23 @@ class App extends Component {
   getUserById = (id) => {
     fetch(`http://localhost:3001/users/${id}`, { method: "GET" })
       .then((res) => res.json())
+      .then((data) => this.setState({ user: data }));
+  };
+
+  createUser = (params) => {
+    fetch("http://localhost:3001/users", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        username: params.username,
+        password_digest: params.password,
+        email: params.email,
+        pass: params.pass,
+      }),
+    })
+      .then((resp) => resp.json())
       .then((data) => this.setState({ user: data }));
   };
 
@@ -206,6 +226,15 @@ class App extends Component {
     }
   };
 
+  handleSignup = (input) => {
+    console.log("handleLogin");
+    console.log("info provided: ");
+    console.log("user:", input.username);
+    console.log("email:", input.email);
+    console.log("pw:", input.password);
+    this.createUser(input);
+  };
+
   checkRender = () => {
     if (this.state.stats.length != 0) {
       return true;
@@ -213,7 +242,6 @@ class App extends Component {
   };
 
   render() {
-    console.log("mounts: ", mounts, "updates: ", updates);
     if (this.checkRender()) {
       return (
         <div className='App'>
@@ -245,7 +273,7 @@ class App extends Component {
                 component={() => (
                   <Signup
                     user={this.state.user}
-                    handleLogin={this.handleLogin.bind(this)}
+                    handleSignup={this.handleSignup.bind(this)}
                     logged_in={this.state.logged_in}
                   />
                 )}
@@ -263,6 +291,21 @@ class App extends Component {
                   <Redirect to='/login' />
                 )}
               </Route>
+              <Route
+                exact
+                path='/friends'
+                component={() => (
+                  <Friends
+                    user={this.state.user}
+                    friends={this.state.friends}
+                    stats={this.state.stats}
+                    accounts={this.state.accounts}
+                    friendships={this.state.friendships}
+                    games={this.state.games}
+                    targetGame={this.state.targetGame}
+                  />
+                )}
+              />
               )} />
               <Route
                 exact
