@@ -121,6 +121,27 @@ class App extends Component {
       .then((data) => this.setState({ user: data }));
   };
 
+  acceptFriendRequest = (id) => {
+    fetch(`http://localhost:3001/friendships/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        confirmed: true,
+      }),
+    });
+  };
+
+  deleteFriendship = (id) => {
+    fetch(`http://localhost:3001/friendships/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+  };
+
   getFriends = () => {
     console.log("getting friends");
     fetch(`http://localhost:3001/users/${this.state.user.id}/friends`, {
@@ -179,6 +200,22 @@ class App extends Component {
     })
       .then((res) => res.json())
       .then((data) => this.setState({ targetGame: data }));
+  };
+
+  getFriendRequests = (id) => {
+    fetch(`http://localhost:3001/users/${id}/friend_requests`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  };
+
+  getPendingFriends = (id) => {
+    fetch(`http://localhost:3001/users/${id}/pending_friends`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   getStats = () => {
@@ -245,8 +282,8 @@ class App extends Component {
     if (this.checkRender()) {
       return (
         <div className='App'>
-          <NavBar user={this.state.user} logged_in={this.state.logged_in} />
           <Router>
+            <NavBar user={this.state.user} logged_in={this.state.logged_in} />
             <Switch>
               <Route exact path='/'>
                 {this.state.logged_in ? (
@@ -303,6 +340,11 @@ class App extends Component {
                     friendships={this.state.friendships}
                     games={this.state.games}
                     targetGame={this.state.targetGame}
+                    getFriendRequests={this.getFriendRequests}
+                    getPendingFriends={this.getPendingFriends}
+                    logged_in={this.state.logged_in}
+                    acceptFriendRequest={this.acceptFriendRequest}
+                    deleteFriendship={this.deleteFriendship}
                   />
                 )}
               />

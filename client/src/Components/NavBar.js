@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import {
   Form,
   Container,
@@ -81,8 +82,15 @@ class NavBar extends Component {
     } else
       return (
         <Menu.Item position='right'>
-          <Button as='a'>Log in</Button>
-          <Button as='a' primary style={{ marginLeft: "0.5em" }}>
+          <Button as={Link} to='/login'>
+            Log in
+          </Button>
+          <Button
+            as={Link}
+            to='/signup'
+            primary
+            style={{ marginLeft: "0.5em" }}
+          >
             Sign Up
           </Button>
         </Menu.Item>
@@ -101,12 +109,16 @@ class NavBar extends Component {
             <Segment textAlign='center' style={{ padding: "1em 0em" }} vertical>
               <Menu pointing size='large'>
                 <Container>
-                  <Menu.Item as='a' active>
+                  <Menu.Item as={Link} to='/account' active>
                     Home
                   </Menu.Item>
                   <Menu.Item as='a'>All</Menu.Item>
-                  <Menu.Item as='a'>Games</Menu.Item>
-                  <Menu.Item as='a'>Friends</Menu.Item>
+                  <Menu.Item as={Link} to='/games'>
+                    Games
+                  </Menu.Item>
+                  <Menu.Item as={Link} to='/friends'>
+                    Friends
+                  </Menu.Item>
                   <Menu.Item as={Search} position='right' />
                   <Menu.Item position='right'>{this.getDropdown()}</Menu.Item>
                 </Container>
