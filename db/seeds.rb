@@ -65,3 +65,5 @@ Account.create(user: User.all.last, name: 'LittyPatitty', platform: 'pc')
 Stat.create(user: User.all.last, account: Account.all.last, game: Game.all.first)
 GamesFollowed.create(user: User.all.last, game: Game.all.first)
 Friendship.create(user: User.all[User.all.length - 3], friend: User.all.last, confirmed: true)
+
+Friendship.create(user: User.all.last, friend: User.all.find_by(id: 11), confirmed: false)

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Card, Confirm } from "semantic-ui-react";
+import { Button, Card } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
 class PendingFriendCard extends Component {
   handleDeleteFriendship = () => {
@@ -7,11 +8,24 @@ class PendingFriendCard extends Component {
     this.props.deleteFriendship(this.props.friendship.id);
   };
 
+  handleViewAccount = () => {
+    console.log("click on ", this.props.friend.id);
+    this.props.getTargetUser(this.props.friend.id);
+    // this.toggleVisibility();
+  };
+
   render() {
     return (
       <Card>
         <Card.Content>
-          <Card.Header>{this.props.friendship.friend.username}</Card.Header>
+          <Card.Header
+            onClick={this.handleViewAccount}
+            as={Link}
+            to='/view_account'
+            name='view_account'
+          >
+            {this.props.friendship.friend.username}
+          </Card.Header>
           <Card.Meta>Friend Request</Card.Meta>
           <Card.Description>
             {this.props.friendship.friend.username} has not responded to your

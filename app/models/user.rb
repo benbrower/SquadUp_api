@@ -30,14 +30,14 @@ class User < ApplicationRecord
   def pending_friends
     friendships.map do |friendship|
       friendship.friend unless friendship.confirmed
-    end .compact
+    end.compact
   end
 
   # get users who have sent friend requests(unnaccepted) to user
   def friend_requests
     inverse_friendships.map do |friendship|
       friendship.user unless friendship.confirmed
-    end .compact
+    end.compact
   end
 
   # accept friend request

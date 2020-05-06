@@ -10,8 +10,14 @@ class Friends extends Component {
     this.state = {};
   }
 
-  open = () => this.setState({ open: true });
-  close = () => this.setState({ open: false });
+  getUser = () => {
+    console.log("getting user");
+    fetch(`http://localhost:3001/users/${this.props.user.id}`, {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => this.setState({ user: data }));
+  };
 
   handleDeleteFriendship = (id) => {
     console.log(id);
@@ -33,6 +39,7 @@ class Friends extends Component {
             friendship={friendship}
             friend={friendship.friend}
             getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
           />
         )
       );
@@ -45,6 +52,7 @@ class Friends extends Component {
             friendship={friendship}
             friend={friendship.user}
             getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
           />
         )
       );
@@ -54,6 +62,7 @@ class Friends extends Component {
   getFriendRequestCards = () => {
     let cards = [];
     this.props.user.inverse_friendships.map((friendship) => {
+      console.log(friendship);
       if (friendship.confirmed == false)
         cards.push(
           <FriendRequestCard
@@ -61,7 +70,9 @@ class Friends extends Component {
             deleteFriendship={this.props.deleteFriendship}
             acceptFriendRequest={this.props.acceptFriendRequest}
             friendship={friendship}
+            friend={friendship.user}
             getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
           />
         );
     });
@@ -70,22 +81,27 @@ class Friends extends Component {
 
   getPendingFriends = () => {
     let cards = [];
-    return this.props.user.friendships.map((friendship) => {
+    this.props.user.friendships.map((friendship) => {
+      console.log(friendship.confirmed);
       if (friendship.confirmed == false)
         cards.push(
           <PendingFriendCard
             key={friendship.id}
             deleteFriendship={this.props.deleteFriendship}
             friendship={friendship}
+            friend={friendship.friend}
             getTargetUser={this.props.getTargetUser}
             targetUser={this.props.targetUser}
+            getUser={this.props.getUser}
           />
         );
     });
+    console.log(cards);
     return cards;
   };
 
   render() {
+    // this.getUser();
     return (
       <div>
         {this.props.user.username}

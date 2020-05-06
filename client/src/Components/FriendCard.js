@@ -10,21 +10,10 @@ class FriendCard extends Component {
     };
   }
 
-  //   open = () => this.setState({ open: true });
-  //   close = () => this.setState({ open: false });
-
-  //   handleConfirm = (id) => {
-  //     this.props.deleteFriendship(id);
-  //     this.setState({ open: false });
-  //   };
   handleClick = () => {
     console.log(this.props.friendship.id);
     this.props.deleteFriendship(this.props.friendship.id);
-  };
-
-  toggleVisibility = () => {
-    this.setState((prevState) => ({ visible: !prevState.visible }));
-    this.handleViewAccount();
+    this.props.getUser();
   };
 
   handleViewAccount = () => {
@@ -48,20 +37,6 @@ class FriendCard extends Component {
           >
             {this.props.friend.username}
           </Card.Header>
-          <Transition
-            visible={this.state.visible}
-            animation='scale'
-            duration={500}
-          >
-            <Button
-              as={Link}
-              to='/view_account'
-              name='view_account'
-              onClick={this.hideLink}
-            >
-              View {this.props.friend.username}
-            </Button>
-          </Transition>
           <Card.Meta>Friend</Card.Meta>
           <Card.Description>
             {this.props.friend.username} is your friend

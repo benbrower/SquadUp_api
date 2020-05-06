@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { Link } from "react-router-dom";
 import {
   Form,
@@ -27,8 +28,30 @@ class NavBar extends Component {
     this.state = {
       fixed: false,
       activeItem: "home",
+      isLoading: false,
+      results: [],
+      value: "",
     };
   }
+  handleResultSelect = (event, { result }) =>
+    this.setState({ value: result.title });
+
+  handleSearchChange = (event, { value }) => {
+    this.setState({ isLoading: true, value });
+
+    setTimeout(() => {
+      if (this.state.value.length < 1)
+        return this.setState({ isLoading: false, results: [], value: "" });
+
+      const result = new RegExp(_.escapeRegExp(this.state.value), "i");
+      const isMatch = (re) => result.test(re.title);
+
+      this.setState({
+        isLoading: false,
+        results: _.filter(this.props.users, isMatch),
+      });
+    }, 300);
+  };
   hideFixedMenu = () => this.setState({ fixed: false });
   showFixedMenu = () => this.setState({ fixed: true });
   getWidth = () => {
@@ -53,8 +76,12 @@ class NavBar extends Component {
               <i className='dropdown icon' />
               <span className='text'>Friends </span>
               <Dropdown.Menu>
-                <Dropdown.Item>View Friends</Dropdown.Item>
-                <Dropdown.Item>Friend Requests</Dropdown.Item>
+                <Dropdown.Item as={Link} to='/friends'>
+                  View Friends
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to='/friends'>
+                  Friend Requests
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Item>
             <Dropdown.Divider />
@@ -63,8 +90,12 @@ class NavBar extends Component {
               <i className='dropdown icon' />
               <span className='text'>Manage Games</span>
               <Dropdown.Menu>
-                <Dropdown.Item>View Games</Dropdown.Item>
-                <Dropdown.Item>View Friends' Games</Dropdown.Item>
+                <Dropdown.Item as={Link} to='/games'>
+                  View Games
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to='/games'>
+                  View Friends' Games
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Item>
             <Dropdown.Divider />
@@ -73,8 +104,12 @@ class NavBar extends Component {
               <i className='dropdown icon' />
               <span className='text'>Manage Account</span>
               <Dropdown.Menu>
-                <Dropdown.Item>View Profile</Dropdown.Item>
-                <Dropdown.Item>Edit Account</Dropdown.Item>
+                <Dropdown.Item as={Link} to='/account'>
+                  View Profile
+                </Dropdown.Item>
+                <Dropdown.Item as={Link} to='/account'>
+                  Edit Account
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown.Item>
             <Dropdown.Item>Log Out</Dropdown.Item>
@@ -121,8 +156,9 @@ class NavBar extends Component {
                     Home
                   </Menu.Item>
                   <Menu.Item
-                    as='a'
-                    name='all'
+                    as={Link}
+                    to='/feed'
+                    name='Feed'
                     active={this.state.activeItem === "all"}
                     onClick={this.handleItemClick}
                   >
@@ -146,7 +182,20 @@ class NavBar extends Component {
                   >
                     Friends
                   </Menu.Item>
-                  <Menu.Item as={Search} position='right' />
+                  <Menu.Item position='right'>
+                    {" "}
+                    <Search
+                    // loading={this.state.isLoading}
+                    // onResultSelect={this.handleResultSelect}
+                    // onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    //   leading: true,
+                    // })}
+                    // results={this.state.results}
+                    // value={this.state.value}
+                    // resultRenderer={resultRenderer}
+                    // {...this.props}
+                    />{" "}
+                  </Menu.Item>
                   <Menu.Item position='right'>{this.getDropdown()}</Menu.Item>
                 </Container>
               </Menu>
