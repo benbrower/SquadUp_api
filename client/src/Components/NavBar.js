@@ -26,6 +26,7 @@ class NavBar extends Component {
     super();
     this.state = {
       fixed: false,
+      activeItem: "home",
     };
   }
   hideFixedMenu = () => this.setState({ fixed: false });
@@ -35,6 +36,7 @@ class NavBar extends Component {
 
     return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth;
   };
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name });
   getDropdown = () => {
     console.log("user nav", this.props.user);
     if (this.props.logged_in) {
@@ -109,14 +111,39 @@ class NavBar extends Component {
             <Segment textAlign='center' style={{ padding: "1em 0em" }} vertical>
               <Menu pointing size='large'>
                 <Container>
-                  <Menu.Item as={Link} to='/account' active>
+                  <Menu.Item
+                    as={Link}
+                    to='/account'
+                    name='home'
+                    active={this.state.activeItem === "home"}
+                    onClick={this.handleItemClick}
+                  >
                     Home
                   </Menu.Item>
-                  <Menu.Item as='a'>All</Menu.Item>
-                  <Menu.Item as={Link} to='/games'>
+                  <Menu.Item
+                    as='a'
+                    name='all'
+                    active={this.state.activeItem === "all"}
+                    onClick={this.handleItemClick}
+                  >
+                    All
+                  </Menu.Item>
+                  <Menu.Item
+                    as={Link}
+                    to='/games'
+                    name='games'
+                    active={this.state.activeItem === "games"}
+                    onClick={this.handleItemClick}
+                  >
                     Games
                   </Menu.Item>
-                  <Menu.Item as={Link} to='/friends'>
+                  <Menu.Item
+                    as={Link}
+                    to='/friends'
+                    name='friends'
+                    active={this.state.activeItem === "friends"}
+                    onClick={this.handleItemClick}
+                  >
                     Friends
                   </Menu.Item>
                   <Menu.Item as={Search} position='right' />

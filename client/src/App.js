@@ -4,6 +4,7 @@ import {
   Route,
   Switch,
   Redirect,
+  Link,
 } from "react-router-dom";
 import NotFound from "./NotFound";
 import Login from "./Components/Login";
@@ -13,15 +14,14 @@ import Friends from "./Components/Friends";
 import Game from "./Components/Game";
 import Games from "./Components/Games";
 import NavBar from "./Components/NavBar";
-
-let mounts = 4;
-let updates = 0;
+import User from "./Components/User";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       user: {},
+      targetUser: {},
       friends: [],
       friendships: [],
       stats: [],
@@ -38,6 +38,7 @@ class App extends Component {
     console.log("mounted");
     this.getUsers();
     this.getBen();
+    // this.getTargetUser();
     // this.getFriends();
     this.getAccounts();
     this.getFriendships();
@@ -68,14 +69,26 @@ class App extends Component {
     console.log("update done");
   }
 
-  componentDidCatch;
-
   getBen = () => {
     console.log("getting Ben");
     fetch("http://localhost:3001/users/11", { method: "GET" })
       .then((res) => res.json())
       .then((data) => this.setState({ user: data }));
   };
+
+  getTargetUser = (id) => {
+    if (this.state.users.find((user) => user.id == id)) {
+      this.setState({
+        targetUser: this.state.users.find((user) => user.id == id),
+      });
+    }
+  };
+  // getTargetUser = (id) => {
+  //   console.log("getting target", id);
+  //   fetch(`http://localhost:3001/users/${id}`, { method: "GET" })
+  //     .then((res) => res.json())
+  //     .then((data) => this.setState({ targetUser: data }));
+  // };
 
   getBenStats = () => {
     fetch(`https://fortnite-api.p.rapidapi.com/stats/I%20o%20BB%20o%20I`, {
@@ -122,24 +135,26 @@ class App extends Component {
   };
 
   acceptFriendRequest = (id) => {
-    fetch(`http://localhost:3001/friendships/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        confirmed: true,
-      }),
-    });
+    console.log("accept friend", id);
+    // fetch(`http://localhost:3001/friendships/${id}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({
+    //     confirmed: true,
+    //   }),
+    // });
   };
 
   deleteFriendship = (id) => {
-    fetch(`http://localhost:3001/friendships/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-type": "application/json",
-      },
-    });
+    console.log("delete friend", id);
+    // fetch(`http://localhost:3001/friendships/${id}`, {
+    //   method: "DELETE",
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    // });
   };
 
   getFriends = () => {
@@ -285,6 +300,20 @@ class App extends Component {
           <Router>
             <NavBar user={this.state.user} logged_in={this.state.logged_in} />
             <Switch>
+              <Route path='/view_account'>
+                {/* {this.state.targetUser == {} ? ( */}
+                <Account
+                  user={this.state.targetUser}
+                  users={this.state.users}
+                  friends={this.state.friends}
+                  stats={this.state.stats}
+                  accounts={this.state.accounts}
+                  friendships={this.state.friendships}
+                />
+                {/* ) : (
+                  <div>Loading...</div>
+                )} */}
+              </Route>
               <Route exact path='/'>
                 {this.state.logged_in ? (
                   <Redirect to='/account' />
@@ -319,6 +348,7 @@ class App extends Component {
                 {this.state.logged_in ? (
                   <Account
                     user={this.state.user}
+                    users={this.state.users}
                     friends={this.state.friends}
                     stats={this.state.stats}
                     accounts={this.state.accounts}
@@ -345,6 +375,8 @@ class App extends Component {
                     logged_in={this.state.logged_in}
                     acceptFriendRequest={this.acceptFriendRequest}
                     deleteFriendship={this.deleteFriendship}
+                    getTargetUser={this.getTargetUser}
+                    targetUser={this.state.targetUser}
                   />
                 )}
               />

@@ -16,6 +16,7 @@ import {
   Image,
   Item,
 } from "semantic-ui-react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Account extends Component {
   constructor() {
@@ -3384,12 +3385,18 @@ class Account extends Component {
       statObjs: [],
       accounts: [],
       friends: [],
+      toggle: false,
     };
   }
 
   componentDidMount() {
-    this.getUserInfo();
+    if (this.props.user == {}) {
+      this.refresh();
+    }
   }
+  refresh = () => {
+    this.setState((prevState) => ({ toggle: !prevState.toggle }));
+  };
 
   getUserInfo = () => {
     this.setState({
@@ -3513,6 +3520,18 @@ class Account extends Component {
   render() {
     return (
       <>
+        {/* <div>
+          users
+          <ul>
+            {this.props.users.map((user) => (
+              <li key={user.id}>
+                <Link to={`/account/${user.id}`}>{user.username}</Link>
+              </li>
+            ))}
+          </ul>
+          <hr />
+          <Route path={"/account/:userId"} component={Account} />
+        </div> */}
         <div>{this.getStatTable()}</div>
         <div>{this.getGrid(this.getFriendRows())}</div>
         <div>{this.getGrid(this.getFollowedGamesRows())}</div>
