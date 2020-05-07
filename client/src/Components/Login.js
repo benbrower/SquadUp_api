@@ -66,68 +66,72 @@ class Login extends Component {
   render() {
     return this.props.logged_in ? (
       <>
-        <div>
-          {this.getHeader()}
-          <Button as={Link} to='/account' name='account' attached='bottom'>
-            View Account
-          </Button>
-        </div>
+        <Container>
+          <div>
+            {this.getHeader()}
+            <Button as={Link} to='/account' name='account' attached='bottom'>
+              View Account
+            </Button>
+          </div>
+        </Container>
       </>
     ) : (
-      <div>
-        {/* <Card> */}
-        <Responsive width={window.innerHeight}>
-          {this.getHeader()}
-          <Form onSubmit={this.handleSubmit}>
-            <Divider hidden section />
-            <Button.Group attached='top' size='big' widths='2'>
-              <Button name='login' onClick={this.changeForm} color='blue'>
-                Log In
-              </Button>
-              <Button.Or />
-              <Button
-                as={Link}
-                to='/signup'
-                name='signup'
-                onClick={this.changeForm}
-              >
-                Sign Up
-              </Button>
-            </Button.Group>
-            <Divider section />
-            <Form.Field>
-              <label>
-                Username:
-                <input
-                  placeholder='Username'
-                  id='username'
-                  name='username'
-                  type='text'
-                  onChange={this.handleUserChange}
-                  value={this.state.username}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Password:
-                <input
-                  placeholder='Password'
-                  id='passsword'
-                  name='password'
-                  type='password'
-                  onChange={this.handlePasswordChange}
-                  value={this.state.password}
-                />
-              </label>
-            </Form.Field>
-            <div>
-              <Button type='submit'>Log in</Button>
-            </div>
-          </Form>
-        </Responsive>
-        {/* </Card> */}
-      </div>
+      <Container>
+        <div>
+          {/* <Card> */}
+          <Responsive width={window.innerHeight}>
+            {this.getHeader()}
+            <Form onSubmit={this.handleSubmit}>
+              <Divider hidden section />
+              <Button.Group attached='top' size='big' widths='2'>
+                <Button name='login' onClick={this.changeForm} color='blue'>
+                  Log In
+                </Button>
+                <Button.Or />
+                <Button
+                  as={Link}
+                  to='/signup'
+                  name='signup'
+                  onClick={this.changeForm}
+                >
+                  Sign Up
+                </Button>
+              </Button.Group>
+              <Divider section />
+              <Form.Field>
+                <label>
+                  Username:
+                  <input
+                    placeholder='Username'
+                    id='username'
+                    name='username'
+                    type='text'
+                    onChange={this.handleUserChange}
+                    value={this.state.username}
+                  />
+                </label>
+              </Form.Field>
+              <Form.Field>
+                <label>
+                  Password:
+                  <input
+                    placeholder='Password'
+                    id='passsword'
+                    name='password'
+                    type='password'
+                    onChange={this.handlePasswordChange}
+                    value={this.state.password}
+                  />
+                </label>
+              </Form.Field>
+              <div>
+                <Button type='submit'>Log in</Button>
+              </div>
+            </Form>
+          </Responsive>
+          {/* </Card> */}
+        </div>
+      </Container>
     );
   }
 }

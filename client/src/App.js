@@ -39,35 +39,37 @@ class App extends Component {
     // ** console.log("mounted");
     this.getUsers();
     this.getBen();
-    // this.getTargetUser();
+    this.getTargetUser(1);
     // this.getFriends();
     this.getAccounts();
     this.getFriendships();
     this.getGames();
     this.getTargetGame(1);
     this.getStats();
+    this.getTargetUser(1);
+
     // ** console.log("mounted end");
   }
 
   componentDidUpdate() {
-    // ** console.log("update");
-    // ** console.log("users:");
+    console.log("update");
+    console.log("users:");
     console.table(this.state.users);
-    // ** console.log("user:");
-    // ** console.log(this.state.user);
-    // ** console.log("friends:");
-    // ** console.log(this.state.friends);
-    // ** console.log("accounts");
-    // ** console.log(this.state.accounts);
-    // ** console.log("friendships:");
-    // ** console.log(this.state.friendships);
-    // ** console.log("targetGame:");
-    // ** console.log(this.state.targetGame);
-    // ** console.log("games:");
-    // ** console.log(this.state.games);
-    // ** console.log("stats:");
-    // ** console.log(this.state.stats);
-    // ** console.log("update done");
+    console.log("user:");
+    console.log(this.state.user);
+    console.log("friends:");
+    console.log(this.state.friends);
+    console.log("accounts");
+    console.log(this.state.accounts);
+    console.log("friendships:");
+    console.log(this.state.friendships);
+    console.log("targetGame:");
+    console.log(this.state.targetGame);
+    console.log("games:");
+    console.log(this.state.games);
+    console.log("stats:");
+    console.log(this.state.stats);
+    console.log("update done");
   }
 
   getBen = () => {
@@ -78,11 +80,16 @@ class App extends Component {
   };
 
   getTargetUser = (id) => {
-    if (this.state.users.find((user) => user.id == id)) {
-      this.setState({
-        targetUser: this.state.users.find((user) => user.id == id),
-      });
-    }
+    // if (this.state.users == []) {
+    fetch("http://localhost:3001/users/1", { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => this.setState({ targetUser: data }));
+    // }
+    // else (this.state.users.find((user) => user.id == id)) {
+    //   this.setState({
+    //     targetUser: this.state.users.find((user) => user.id == id),
+    //   });
+    // }
   };
   // getTargetUser = (id) => {
   //// ** console.log("getting target", id);
@@ -133,7 +140,7 @@ class App extends Component {
       body: JSON.stringify({
         confirmed: true,
       }),
-    });
+    }).then((data) => this.getUser());
   };
 
   createFriendship = (params) => {
@@ -149,7 +156,8 @@ class App extends Component {
       }),
     })
       .then((resp) => resp.json())
-      .then((data) => this.setState({ user: data }));
+      // .then((data) => this.setState({ user: data }));
+      .then((data) => this.getUser());
   };
 
   deleteFriendship = (id) => {
@@ -159,7 +167,7 @@ class App extends Component {
       headers: {
         "Content-type": "application/json",
       },
-    });
+    }).then((data) => this.getUser());
   };
 
   getFriends = () => {
@@ -303,6 +311,13 @@ class App extends Component {
       return (
         <div className='App'>
           <Router>
+            <style>
+              {`
+      html, body {
+        background-color: #bed1f1 !important;
+      }
+      `}
+            </style>
             <NavBar user={this.state.user} logged_in={this.state.logged_in} />
             <Switch>
               <Route path='/view_account'>
@@ -316,6 +331,15 @@ class App extends Component {
                   accounts={this.state.accounts}
                   friendships={this.state.friendships}
                   createFriendship={this.createFriendship}
+                  getTargetUser={this.getTargetUser}
+                  createFriendship={this.createFriendship}
+                  targetGame={this.state.targetGame}
+                  getFriendRequests={this.getFriendRequests}
+                  getPendingFriends={this.getPendingFriends}
+                  logged_in={this.state.logged_in}
+                  acceptFriendRequest={this.acceptFriendRequest}
+                  deleteFriendship={this.deleteFriendship}
+                  getTargetUser={this.getTargetUser}
                 />
                 {/* ) : (
                   <div>Loading...</div>
@@ -360,6 +384,15 @@ class App extends Component {
                     stats={this.state.stats}
                     accounts={this.state.accounts}
                     friendships={this.state.friendships}
+                    getTargetUser={this.getTargetUser}
+                    createFriendship={this.createFriendship}
+                    targetGame={this.state.targetGame}
+                    getFriendRequests={this.getFriendRequests}
+                    getPendingFriends={this.getPendingFriends}
+                    logged_in={this.state.logged_in}
+                    acceptFriendRequest={this.acceptFriendRequest}
+                    deleteFriendship={this.deleteFriendship}
+                    getTargetUser={this.getTargetUser}
                   />
                 ) : (
                   <Redirect to='/login' />
@@ -373,6 +406,15 @@ class App extends Component {
                   stats={this.state.stats}
                   accounts={this.state.accounts}
                   games={this.state.games}
+                  getTargetUser={this.getTargetUser}
+                  createFriendship={this.createFriendship}
+                  targetGame={this.state.targetGame}
+                  getFriendRequests={this.getFriendRequests}
+                  getPendingFriends={this.getPendingFriends}
+                  logged_in={this.state.logged_in}
+                  acceptFriendRequest={this.acceptFriendRequest}
+                  deleteFriendship={this.deleteFriendship}
+                  getTargetUser={this.getTargetUser}
                 />
               </Route>
               <Route

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Confirm } from "semantic-ui-react";
+import { Button, Card, Container } from "semantic-ui-react";
 import FriendCard from "./FriendCard";
 import FriendRequestCard from "./FriendRequestCard";
 import PendingFriendCard from "./PendingFriendCard";
@@ -29,10 +29,10 @@ class Friends extends Component {
     this.props.acceptFriendRequest(id);
   };
   getFriendCards = () => {
-    let friendCards = [];
+    let cards = [];
     if (this.props.user.friendships)
       this.props.user.friendships.map((friendship) =>
-        friendCards.push(
+        cards.push(
           <FriendCard
             key={friendship.id}
             deleteFriendship={this.props.deleteFriendship}
@@ -45,7 +45,7 @@ class Friends extends Component {
       );
     if (this.props.user.inverse_friendships)
       this.props.user.inverse_friendships.map((friendship) =>
-        friendCards.push(
+        cards.push(
           <FriendCard
             key={friendship.id}
             deleteFriendship={this.props.deleteFriendship}
@@ -56,7 +56,7 @@ class Friends extends Component {
           />
         )
       );
-    return friendCards;
+    return cards;
   };
 
   getFriendRequestCards = () => {
@@ -104,18 +104,22 @@ class Friends extends Component {
     // this.getUser();
     return (
       <div>
-        {this.props.user.username}
-        <br />
-        Friends
-        <Card.Group>{this.getFriendCards().map((card) => card)}</Card.Group>
-        <br />
-        Friend Reqs
-        <Card.Group>
-          {this.getFriendRequestCards().map((card) => card)}
-        </Card.Group>
-        <br />
-        Pending Reqs
-        <Card.Group>{this.getPendingFriends().map((card) => card)}</Card.Group>
+        <Container>
+          {this.props.user.username}
+          <br />
+          Friends
+          <Card.Group>{this.getFriendCards().map((card) => card)}</Card.Group>
+          <br />
+          Friend Reqs
+          <Card.Group>
+            {this.getFriendRequestCards().map((card) => card)}
+          </Card.Group>
+          <br />
+          Pending Reqs
+          <Card.Group>
+            {this.getPendingFriends().map((card) => card)}
+          </Card.Group>
+        </Container>
       </div>
     );
   }

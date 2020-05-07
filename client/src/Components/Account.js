@@ -17,6 +17,7 @@ import {
   Item,
 } from "semantic-ui-react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import FriendCard from "./FriendCard";
 
 class Account extends Component {
   constructor() {
@@ -3389,6 +3390,37 @@ class Account extends Component {
     };
   }
 
+  getFriendCards = () => {
+    let cards = [];
+    if (this.props.user.friendships)
+      this.props.user.friendships.map((friendship) =>
+        cards.push(
+          <FriendCard
+            key={friendship.id}
+            deleteFriendship={this.props.deleteFriendship}
+            friendship={friendship}
+            friend={friendship.friend}
+            getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
+          />
+        )
+      );
+    if (this.props.user.inverse_friendships)
+      this.props.user.inverse_friendships.map((friendship) =>
+        cards.push(
+          <FriendCard
+            key={friendship.id}
+            deleteFriendship={this.props.deleteFriendship}
+            friendship={friendship}
+            friend={friendship.user}
+            getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
+          />
+        )
+      );
+    return cards;
+  };
+
   componentDidMount() {
     if (this.props.user == {}) {
       this.refresh();
@@ -3520,21 +3552,14 @@ class Account extends Component {
   render() {
     return (
       <>
-        {/* <div>
-          users
-          <ul>
-            {this.props.users.map((user) => (
-              <li key={user.id}>
-                <Link to={`/account/${user.id}`}>{user.username}</Link>
-              </li>
-            ))}
-          </ul>
-          <hr />
-          <Route path={"/account/:userId"} component={Account} />
-        </div> */}
-        <div>{this.getStatTable()}</div>
-        <div>{this.getGrid(this.getFriendRows())}</div>
-        <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+        <Container>
+          <div>{this.getStatTable()}</div>
+          {/* <div>{this.getGrid(this.getFriendCards())}</div> */}
+          <Divider />
+          <Card.Group centered>{this.getFriendCards()} </Card.Group>
+
+          <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+        </Container>
       </>
     );
   }

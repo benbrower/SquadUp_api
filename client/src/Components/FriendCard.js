@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Transition } from "semantic-ui-react";
+import { Button, Card, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class FriendCard extends Component {
@@ -13,13 +13,12 @@ class FriendCard extends Component {
   handleClick = () => {
     console.log(this.props.friendship.id);
     this.props.deleteFriendship(this.props.friendship.id);
-    this.props.getUser();
+    // this.props.getUser();
   };
 
   handleViewAccount = () => {
     console.log("click on ", this.props.friend.id);
     this.props.getTargetUser(this.props.friend.id);
-    // this.toggleVisibility();
   };
 
   hideLink = () => {
@@ -35,6 +34,8 @@ class FriendCard extends Component {
             to='/view_account'
             name='view_account'
           >
+            <Icon name='user circle' color='blue' size='big' floated='right' />
+
             {this.props.friend.username}
           </Card.Header>
           <Card.Meta>Friend</Card.Meta>

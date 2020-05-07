@@ -137,6 +137,10 @@ class NavBar extends Component {
     console.log("nav render");
     return (
       <div>
+        <Header as='h2' icon textAlign='center'>
+          {/* <Icon name='user circle' color='blue' size='big' /> */}
+          <Header.Content>SquadUp</Header.Content>
+        </Header>
         <Responsive width={window.innerHeight}>
           <Visibility
             once={false}

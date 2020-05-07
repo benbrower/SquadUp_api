@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class PendingFriendCard extends Component {
@@ -24,6 +24,12 @@ class PendingFriendCard extends Component {
             to='/view_account'
             name='view_account'
           >
+            <Icon
+              name='user circle outline'
+              color='blue'
+              size='big'
+              floated='right'
+            />
             {this.props.friendship.friend.username}
           </Card.Header>
           <Card.Meta>Friend Request</Card.Meta>

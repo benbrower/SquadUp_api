@@ -17,6 +17,7 @@ import {
   Item,
 } from "semantic-ui-react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import FriendCard from "./FriendCard";
 
 class User extends Component {
   constructor() {
@@ -3401,6 +3402,36 @@ class User extends Component {
       ),
     });
   };
+  getFriendCards = () => {
+    let cards = [];
+    if (this.props.user.friendships)
+      this.props.user.friendships.map((friendship) =>
+        cards.push(
+          <FriendCard
+            key={friendship.id}
+            deleteFriendship={this.props.deleteFriendship}
+            friendship={friendship}
+            friend={friendship.friend}
+            getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
+          />
+        )
+      );
+    if (this.props.user.inverse_friendships)
+      this.props.user.inverse_friendships.map((friendship) =>
+        cards.push(
+          <FriendCard
+            key={friendship.id}
+            deleteFriendship={this.props.deleteFriendship}
+            friendship={friendship}
+            friend={friendship.user}
+            getTargetUser={this.props.getTargetUser}
+            getUser={this.props.getUser}
+          />
+        )
+      );
+    return cards;
+  };
 
   getStatRows = () => {
     console.log(this.props.accounts);
@@ -3521,9 +3552,13 @@ class User extends Component {
   render() {
     return (
       <>
-        <div>{this.getStatTable()}</div>
-        <div>{this.getGrid(this.getFriendRows())}</div>
-        <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+        <Container>
+          <div>{this.getStatTable()}</div>
+          {/* <div>{this.getGrid(this.getFriendRows())}</div> */}
+          <Divider />
+          <Card.Group centered>{this.getFriendCards()} </Card.Group>
+          <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+        </Container>
       </>
     );
   }

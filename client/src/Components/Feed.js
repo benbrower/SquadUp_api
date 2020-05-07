@@ -16,12 +16,14 @@ import {
   Image,
   Item,
 } from "semantic-ui-react";
+
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Feed extends Component {
   constructor() {
     super();
     this.state = {
+      target: {},
       user: {},
       stats: {
         lifetime: {
@@ -3389,6 +3391,11 @@ class Feed extends Component {
     };
   }
 
+  handleViewAccount = () => {
+    console.log("click on ", this.state.target);
+    this.props.getTargetUser(this.state.target.id);
+  };
+
   getStatTable = () => {
     return (
       <>
@@ -3407,6 +3414,15 @@ class Feed extends Component {
     );
   };
 
+  setTarget = (event) => {
+    console.log(event);
+    // this.props.getTargetUser(id)
+  };
+
+  handleClick = (event) => {
+    console.log(event);
+  };
+
   getStatRows = () => {
     console.table(this.props.users);
     return this.props.users.map((user) => {
@@ -3422,7 +3438,21 @@ class Feed extends Component {
                     Fortnite
                   </Table.Cell>
                   <Table.Cell rowSpan={user.accounts.length}>
-                    {user.username}
+                    <Header
+                      name={user.id}
+                      as={Link}
+                      to='/view_account'
+                      name='view_account'
+                    >
+                      <Icon
+                        to='view_account'
+                        name='user circle'
+                        color='blue'
+                        size='big'
+                        floated='right'
+                      />
+                      {user.username}
+                    </Header>
                   </Table.Cell>
                 </>
               ) : (
@@ -3446,7 +3476,11 @@ class Feed extends Component {
   };
 
   render() {
-    return <div>{this.getStatTable()}</div>;
+    return (
+      <div>
+        <Container>{this.getStatTable()}</Container>
+      </div>
+    );
   }
 }
 export default Feed;

@@ -61,80 +61,84 @@ class Signup extends Component {
   render() {
     return this.props.logged_in ? (
       <>
-        <div>
-          Welcome, {this.props.user.username}
-          {this.getHeader()}
-          <Button as={Link} to='/account' name='account' attached='bottom'>
-            View Account
-          </Button>
-        </div>
+        <Container>
+          <div>
+            Welcome, {this.props.user.username}
+            {this.getHeader()}
+            <Button as={Link} to='/account' name='account' attached='bottom'>
+              View Account
+            </Button>
+          </div>
+        </Container>
       </>
     ) : (
-      <div>
-        <Responsive width={window.innerHeight}>
-          {this.getHeader()}
-          <Form onSubmit={this.handleSubmit}>
-            <Divider hidden section />
-            <Button.Group attached='top' size='big'>
-              <Button
-                as={Link}
-                to='/login'
-                name='login'
-                onClick={this.changeForm}
-              >
-                Log In
-              </Button>
-              <Button.Or />
-              <Button name='signup' onClick={this.changeForm} color='blue'>
-                Sign Up
-              </Button>
-            </Button.Group>
-            <Divider section />
-            <Form.Field>
-              <label>
-                Username:
-                <input
-                  placeholder='Username'
-                  id='username'
-                  name='username'
-                  type='text'
-                  onChange={this.handleChange}
-                  value={this.state.username}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Email:
-                <input
-                  placeholder='Email Address'
-                  id='email'
-                  name='email'
-                  type='text'
-                  onChange={this.handleChange}
-                  value={this.state.email}
-                />
-              </label>
-            </Form.Field>
-            <Form.Field>
-              <label>
-                Password:
-                <input
-                  placeholder='Password'
-                  id='password'
-                  name='password'
-                  type='password'
-                  onChange={this.handleChange}
-                  value={this.state.password}
-                />
-              </label>
-            </Form.Field>
-            <div>
-              <Button type='submit'>Sign Up</Button>
-            </div>
-          </Form>
-        </Responsive>
-      </div>
+      <Container>
+        <div>
+          <Responsive width={window.innerHeight}>
+            {this.getHeader()}
+            <Form onSubmit={this.handleSubmit}>
+              <Divider hidden section />
+              <Button.Group attached='top' size='big'>
+                <Button
+                  as={Link}
+                  to='/login'
+                  name='login'
+                  onClick={this.changeForm}
+                >
+                  Log In
+                </Button>
+                <Button.Or />
+                <Button name='signup' onClick={this.changeForm} color='blue'>
+                  Sign Up
+                </Button>
+              </Button.Group>
+              <Divider section />
+              <Form.Field>
+                <label>
+                  Username:
+                  <input
+                    placeholder='Username'
+                    id='username'
+                    name='username'
+                    type='text'
+                    onChange={this.handleChange}
+                    value={this.state.username}
+                  />
+                </label>
+              </Form.Field>
+              <Form.Field>
+                <label>
+                  Email:
+                  <input
+                    placeholder='Email Address'
+                    id='email'
+                    name='email'
+                    type='text'
+                    onChange={this.handleChange}
+                    value={this.state.email}
+                  />
+                </label>
+              </Form.Field>
+              <Form.Field>
+                <label>
+                  Password:
+                  <input
+                    placeholder='Password'
+                    id='password'
+                    name='password'
+                    type='password'
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                  />
+                </label>
+              </Form.Field>
+              <div>
+                <Button type='submit'>Sign Up</Button>
+              </div>
+            </Form>
+          </Responsive>
+        </div>
+      </Container>
     );
   }
 }

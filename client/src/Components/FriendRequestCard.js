@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Icon } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 class FriendRequestCard extends Component {
@@ -28,6 +28,12 @@ class FriendRequestCard extends Component {
             to='/view_account'
             name='view_account'
           >
+            <Icon
+              name='user circle outline'
+              color='blue'
+              size='big'
+              floated='right'
+            />
             {this.props.friendship.user.username}
           </Card.Header>
           <Card.Meta>Friends Request</Card.Meta>
