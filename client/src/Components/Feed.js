@@ -16,13 +16,14 @@ import {
   Image,
   Item,
 } from "semantic-ui-react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import FriendCard from "./FriendCard";
 
-class Account extends Component {
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+
+class Feed extends Component {
   constructor() {
     super();
     this.state = {
+      target: {},
       user: {},
       stats: {
         lifetime: {
@@ -3390,96 +3391,19 @@ class Account extends Component {
     };
   }
 
-  getFriendCards = () => {
-    let cards = [];
-    if (this.props.user.friendships)
-      this.props.user.friendships.map((friendship) =>
-        cards.push(
-          <FriendCard
-            key={friendship.id}
-            deleteFriendship={this.props.deleteFriendship}
-            friendship={friendship}
-            friend={friendship.friend}
-            getTargetUser={this.props.getTargetUser}
-            getUser={this.props.getUser}
-          />
-        )
-      );
-    if (this.props.user.inverse_friendships)
-      this.props.user.inverse_friendships.map((friendship) =>
-        cards.push(
-          <FriendCard
-            key={friendship.id}
-            deleteFriendship={this.props.deleteFriendship}
-            friendship={friendship}
-            friend={friendship.user}
-            getTargetUser={this.props.getTargetUser}
-            getUser={this.props.getUser}
-          />
-        )
-      );
-    return cards;
-  };
-
-  componentDidMount() {
-    if (this.props.user == {}) {
-      this.refresh();
-    }
-  }
-  refresh = () => {
-    this.setState((prevState) => ({ toggle: !prevState.toggle }));
-  };
-
-  getUserInfo = () => {
-    this.setState({
-      accounts: this.props.accounts.filter(
-        (account) => account.user.id === this.props.user.id
-      ),
-      statObjs: this.props.stats.filter(
-        (stat) => stat.user.id === this.props.user.id
-      ),
-    });
-  };
-
-  getStatRows = () => {
-    console.log(this.props.accounts);
-    return this.props.user.accounts.map((account, index) => {
-      console.log(account);
-      return (
-        <Table.Row verticalAlign='top' key={index}>
-          {index === 0 ? (
-            <Table.Cell rowSpan={this.props.accounts.length}>
-              Fortnite
-            </Table.Cell>
-          ) : (
-            <></>
-          )}
-          <Table.Cell>{account.name}</Table.Cell>
-          <Table.Cell verticalAlign='top'>
-            Kills: {this.state.stats.lifetime.all.all.kills}
-            <br />
-            Wins: {this.state.stats.lifetime.all.all.placetop1}
-            <br />
-            K/D Ratio: {this.state.stats.season.keyboardmouse.all.kdr}
-            <br />
-            {/* K/D Ratio: {this.state.stats.lifetime.all.all.kdr}<br /> */}
-          </Table.Cell>
-        </Table.Row>
-      );
-    });
+  handleViewAccount = () => {
+    console.log("click on ", this.state.target);
+    this.props.getTargetUser(this.state.target.id);
   };
 
   getStatTable = () => {
     return (
       <>
-        <Header as='h2' icon textAlign='center'>
-          <Icon name='user circle' color='blue' size='big' />
-          <Header.Content>{this.props.user.username}</Header.Content>
-        </Header>
         <Table celled padded striped color='blue'>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Game</Table.HeaderCell>
+              <Table.HeaderCell>Username</Table.HeaderCell>
               <Table.HeaderCell>Account</Table.HeaderCell>
               <Table.HeaderCell>Stats</Table.HeaderCell>
             </Table.Row>
@@ -3490,79 +3414,73 @@ class Account extends Component {
     );
   };
 
-  getFriendRows = () => {
-    return this.props.user.friends.map((friend, index) => {
-      return (
-        <>
-          <Grid.Column textAlign='center'>
-            <Item>
-              <Item.Image size='tiny'>
-                <Icon name='users' size='big' />
-              </Item.Image>
-              <Item.Content>
-                <Item.Header as='a'>{friend.username}</Item.Header>
-                <Item.Meta>Friend</Item.Meta>
-              </Item.Content>
-            </Item>
-          </Grid.Column>
-        </>
-      );
-    });
+  setTarget = (event) => {
+    console.log(event);
+    // this.props.getTargetUser(id)
   };
 
-  getFollowedGamesRows = () => {
-    return this.props.user.followed_games.map((game, index) => {
-      return (
-        <>
-          <Grid.Column textAlign='center'>
-            <Item>
-              <Item.Image size='tiny'>
-                <Icon name='users' size='big' />
-              </Item.Image>
-              <Item.Content>
-                <Item.Header as='a'>{game.game.title}</Item.Header>
-                <Item.Meta>Game</Item.Meta>
-              </Item.Content>
-            </Item>
-          </Grid.Column>
-        </>
-      );
-    });
+  handleClick = (event) => {
+    console.log(event);
   };
 
-  getGrid = (rows) => {
-    return (
-      <>
-        <br />
-        <Grid
-          container
-          centered
-          columns='equal'
-          padded
-          textAlign='center'
-          verticalAlign='center'
-          relaxed='very'
-        >
-          {rows}
-        </Grid>
-      </>
-    );
+  getStatRows = () => {
+    console.table(this.props.users);
+    return this.props.users.map((user) => {
+      console.log("feed", user);
+      return user.accounts.map((account, index) => {
+        console.log("feed2", account, index);
+        if (user.accounts[index]) {
+          return (
+            <Table.Row verticalAlign='top' key={index}>
+              {index === 0 ? (
+                <>
+                  <Table.Cell rowSpan={user.accounts.length}>
+                    Fortnite
+                  </Table.Cell>
+                  <Table.Cell rowSpan={user.accounts.length}>
+                    <Header
+                      name={user.id}
+                      as={Link}
+                      to='/view_account'
+                      name='view_account'
+                    >
+                      <Icon
+                        to='view_account'
+                        name='user circle'
+                        color='blue'
+                        size='big'
+                        floated='right'
+                      />
+                      {user.username}
+                    </Header>
+                  </Table.Cell>
+                </>
+              ) : (
+                <></>
+              )}
+              <Table.Cell>{account.name}</Table.Cell>
+              <Table.Cell verticalAlign='top'>
+                Kills: {this.state.stats.lifetime.all.all.kills}
+                <br />
+                Wins: {this.state.stats.lifetime.all.all.placetop1}
+                <br />
+                K/D Ratio: {this.state.stats.season.keyboardmouse.all.kdr}
+                <br />
+                {/* K/D Ratio: {this.state.stats.lifetime.all.all.kdr}<br /> */}
+              </Table.Cell>
+            </Table.Row>
+          );
+        }
+      });
+    });
   };
 
   render() {
     return (
-      <>
-        <Container>
-          <div>{this.getStatTable()}</div>
-          {/* <div>{this.getGrid(this.getFriendCards())}</div> */}
-          <Divider />
-          <Card.Group centered>{this.getFriendCards()} </Card.Group>
-
-          <div>{this.getGrid(this.getFollowedGamesRows())}</div>
-        </Container>
-      </>
+      <div>
+        <Container>{this.getStatTable()}</Container>
+      </div>
     );
   }
 }
-
-export default Account;
+export default Feed;

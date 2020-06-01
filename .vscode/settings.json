@@ -1,0 +1,10 @@
+{
+  "liveshare.allowGuestDebugControl": true,
+  "liveshare.allowGuestTaskControl": true,
+  "liveshare.diagnosticLogging": true,
+  "liveshare.languages.allowGuestCommandControl": true,
+  "liveshare.publishWorkspaceInfo": true,
+  "search.exclude": {
+    "**/*.code-search": false
+  }
+}

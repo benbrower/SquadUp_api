@@ -54,3 +54,6 @@ gem 'dotenv'
 # ActiveAdmin
 gem 'devise'
 gem 'activeadmin'
+
+# activeModel Serializer
+gem 'active_model_serializers'

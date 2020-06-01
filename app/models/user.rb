@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :inverse_friendships, class_name: 'Friendship', foreign_key: 'friend_id'
   has_secure_password
   validates :username, uniqueness: { case_sensitive: false }
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   # get friends from friendships
   def friends
@@ -29,14 +30,14 @@ class User < ApplicationRecord
   def pending_friends
     friendships.map do |friendship|
       friendship.friend unless friendship.confirmed
-    end .compact
+    end.compact
   end
 
   # get users who have sent friend requests(unnaccepted) to user
   def friend_requests
     inverse_friendships.map do |friendship|
       friendship.user unless friendship.confirmed
-    end .compact
+    end.compact
   end
 
   # accept friend request
@@ -45,5 +46,4 @@ class User < ApplicationRecord
     friendship.confirmed = true
     friendship.save
   end
-
 end

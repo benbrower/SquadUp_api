@@ -19,7 +19,7 @@ import {
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import FriendCard from "./FriendCard";
 
-class Account extends Component {
+class User extends Component {
   constructor() {
     super();
     this.state = {
@@ -3390,6 +3390,18 @@ class Account extends Component {
     };
   }
 
+  componentDidMount() {}
+
+  getUserInfo = () => {
+    this.setState({
+      accounts: this.props.accounts.filter(
+        (account) => account.user.id === this.props.targetUser.id
+      ),
+      statObjs: this.props.stats.filter(
+        (stat) => stat.user.id === this.props.targetUser.id
+      ),
+    });
+  };
   getFriendCards = () => {
     let cards = [];
     if (this.props.user.friendships)
@@ -3421,29 +3433,9 @@ class Account extends Component {
     return cards;
   };
 
-  componentDidMount() {
-    if (this.props.user == {}) {
-      this.refresh();
-    }
-  }
-  refresh = () => {
-    this.setState((prevState) => ({ toggle: !prevState.toggle }));
-  };
-
-  getUserInfo = () => {
-    this.setState({
-      accounts: this.props.accounts.filter(
-        (account) => account.user.id === this.props.user.id
-      ),
-      statObjs: this.props.stats.filter(
-        (stat) => stat.user.id === this.props.user.id
-      ),
-    });
-  };
-
   getStatRows = () => {
     console.log(this.props.accounts);
-    return this.props.user.accounts.map((account, index) => {
+    return this.props.targetUser.accounts.map((account, index) => {
       console.log(account);
       return (
         <Table.Row verticalAlign='top' key={index}>
@@ -3474,7 +3466,15 @@ class Account extends Component {
       <>
         <Header as='h2' icon textAlign='center'>
           <Icon name='user circle' color='blue' size='big' />
-          <Header.Content>{this.props.user.username}</Header.Content>
+          <Header.Content>{this.props.targetUser.username}</Header.Content>
+          <Button
+            onClick={this.props.createFriendship}
+            as={Link}
+            to='/view_account'
+            name='view_account'
+          >
+            Add Friend
+          </Button>
         </Header>
         <Table celled padded striped color='blue'>
           <Table.Header>
@@ -3491,7 +3491,7 @@ class Account extends Component {
   };
 
   getFriendRows = () => {
-    return this.props.user.friends.map((friend, index) => {
+    return this.props.targetUser.friends.map((friend, index) => {
       return (
         <>
           <Grid.Column textAlign='center'>
@@ -3511,7 +3511,7 @@ class Account extends Component {
   };
 
   getFollowedGamesRows = () => {
-    return this.props.user.followed_games.map((game, index) => {
+    return this.props.targetUser.followed_games.map((game, index) => {
       return (
         <>
           <Grid.Column textAlign='center'>
@@ -3554,15 +3554,14 @@ class Account extends Component {
       <>
         <Container>
           <div>{this.getStatTable()}</div>
-          {/* <div>{this.getGrid(this.getFriendCards())}</div> */}
-          <Divider />
-          <Card.Group centered>{this.getFriendCards()} </Card.Group>
-
-          <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+          {/* <div>{this.getGrid(this.getFriendRows())}</div> */}
+          {/* <Divider /> */}
+          {/* <Card.Group centered>{this.getFriendCards()} </Card.Group> */}
+          {/* <div>{this.getGrid(this.getFollowedGamesRows())}</div> */}
         </Container>
       </>
     );
   }
 }
 
-export default Account;
+export default User;
