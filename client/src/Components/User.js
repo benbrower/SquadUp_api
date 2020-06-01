@@ -3555,9 +3555,9 @@ class User extends Component {
         <Container>
           <div>{this.getStatTable()}</div>
           {/* <div>{this.getGrid(this.getFriendRows())}</div> */}
-          <Divider />
-          <Card.Group centered>{this.getFriendCards()} </Card.Group>
-          <div>{this.getGrid(this.getFollowedGamesRows())}</div>
+          {/* <Divider /> */}
+          {/* <Card.Group centered>{this.getFriendCards()} </Card.Group> */}
+          {/* <div>{this.getGrid(this.getFollowedGamesRows())}</div> */}
         </Container>
       </>
     );

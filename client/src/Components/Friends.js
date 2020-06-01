@@ -31,31 +31,38 @@ class Friends extends Component {
   getFriendCards = () => {
     let cards = [];
     if (this.props.user.friendships)
-      this.props.user.friendships.map((friendship) =>
-        cards.push(
-          <FriendCard
-            key={friendship.id}
-            deleteFriendship={this.props.deleteFriendship}
-            friendship={friendship}
-            friend={friendship.friend}
-            getTargetUser={this.props.getTargetUser}
-            getUser={this.props.getUser}
-          />
-        )
-      );
+      this.props.user.friendships.map((friendship) => {
+        if (friendship.confirmed == true)
+          cards.push(
+            <FriendCard
+              key={friendship.id}
+              deleteFriendship={this.props.deleteFriendship}
+              friendship={friendship}
+              friend={friendship.friend}
+              getTargetUser={this.props.getTargetUser}
+              getUser={this.props.getUser}
+            />
+          );
+      });
     if (this.props.user.inverse_friendships)
-      this.props.user.inverse_friendships.map((friendship) =>
-        cards.push(
-          <FriendCard
-            key={friendship.id}
-            deleteFriendship={this.props.deleteFriendship}
-            friendship={friendship}
-            friend={friendship.user}
-            getTargetUser={this.props.getTargetUser}
-            getUser={this.props.getUser}
-          />
-        )
-      );
+      this.props.user.inverse_friendships.map((friendship) => {
+        if (friendship.confirmed == true)
+          cards.push(
+            <FriendCard
+              key={friendship.id}
+              deleteFriendship={this.props.deleteFriendship}
+              friendship={friendship}
+              friend={friendship.user}
+              getTargetUser={this.props.getTargetUser}
+              getUser={this.props.getUser}
+            />
+          );
+      });
+    console.table(
+      "cards",
+      cards.find((card) => card.friendship)
+      // cards.filter((card) => card.friendship.confirmed == true)
+    );
     return cards;
   };
 

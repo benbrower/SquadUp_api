@@ -166,9 +166,9 @@ class NavBar extends Component {
                     active={this.state.activeItem === "all"}
                     onClick={this.handleItemClick}
                   >
-                    All
+                    Feed
                   </Menu.Item>
-                  <Menu.Item
+                  {/* <Menu.Item
                     as={Link}
                     to='/games'
                     name='games'
@@ -176,7 +176,7 @@ class NavBar extends Component {
                     onClick={this.handleItemClick}
                   >
                     Games
-                  </Menu.Item>
+                  </Menu.Item> */}
                   <Menu.Item
                     as={Link}
                     to='/friends'
